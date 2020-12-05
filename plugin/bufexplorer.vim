@@ -379,6 +379,7 @@ function! s:SetLocalSettings()
     let s:_report = &report
     let &report = 10000
 
+    setlocal nornu
     setlocal nonumber
     setlocal foldcolumn=0
     setlocal nofoldenable
@@ -1278,6 +1279,7 @@ endif
 let g:BufExplorer_title = "\[Buf\ List\]"
 call s:Set("g:bufExplorerResize", 1)
 call s:Set("g:bufExplorerMaxHeight", 25) " Handles dynamic resizing of the window.
+call s:Set("g:bufExplorerMinHeight", 10) " Handles dynamic resizing of the window.
 
 " function! to start display. Set the mode to 'winmanager' for this buffer.
 " This is to figure out how this plugin was called. In a standalone fashion
@@ -1305,7 +1307,7 @@ function! BufExplorer_ReSize()
         return
     end
 
-    let nlines = min([line("$"), g:bufExplorerMaxHeight])
+    let nlines = max([min([line("$"), g:bufExplorerMaxHeight]), g:bufExplorerMinHeight])
 
     execute nlines." wincmd _"
 
